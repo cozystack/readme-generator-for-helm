@@ -151,7 +151,7 @@ type Section struct {
 	Parameters       []*Parameter
 }
 
-func (s *Section) Description() string { return strings.Join(s.DescriptionLines, "\r\n") }
+func (s *Section) Description() string { return strings.Join(s.DescriptionLines, "\n") }
 
 //-------------------------------------------------------------------------
 
@@ -675,8 +675,9 @@ func renderSection(sec *Section, h string) string {
 	var b strings.Builder
 	b.WriteString(fmt.Sprintf("%s %s\n\n", h, sec.Name))
 
-	if d := sec.Description(); d != "" {
+	if d := strings.TrimRight(sec.Description(), "\n"); d != "" {
 		b.WriteString(d)
+		b.WriteString("\n\n")
 	}
 
 	if len(sec.Parameters) > 0 {
